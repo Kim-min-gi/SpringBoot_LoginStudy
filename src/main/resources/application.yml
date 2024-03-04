@@ -1,7 +1,17 @@
 spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
   h2:
     console:
       enabled: true
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
+
+  thymeleaf:
+    cache: false
+    suffix: .html
+    prefix: classpath:/templates/
+
