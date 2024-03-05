@@ -22,7 +22,7 @@ public class PostController {
 //    }
 
     @PostMapping("/posts")
-    public Map<String ,String> post(@RequestBody @Valid PostCreate prams, BindingResult result) throws Exception {
+    public Map<String ,String> post(@RequestBody @Valid PostCreate prams) throws Exception {
         //데이터를 검증하는 이유
         //1. client 개발자가 깜빡할 수 있다.
         //2. client 버그로 값이 누락될 수 있다.
@@ -39,18 +39,18 @@ public class PostController {
 //            throw new Exception("타이틀이 없어요");
 //        }
 
-        if (result.hasErrors()){
-            List<FieldError> fieldErrorList = result.getFieldErrors();
-            FieldError firstFiledError = fieldErrorList.get(0);
-            String fieldName = firstFiledError.getField(); //title
-            String errorMessage = firstFiledError.getDefaultMessage(); //error message
-
-            Map<String,String> error = new HashMap<>();
-            error.put(fieldName,errorMessage);
-
-            return error;
-
-        }
+//        if (result.hasErrors()){
+//            List<FieldError> fieldErrorList = result.getFieldErrors();
+//            FieldError firstFiledError = fieldErrorList.get(0);
+//            String fieldName = firstFiledError.getField(); //title
+//            String errorMessage = firstFiledError.getDefaultMessage(); //error message
+//
+//            Map<String,String> error = new HashMap<>();
+//            error.put(fieldName,errorMessage);
+//
+//            return error;
+//
+//        }
 
 //        log.info("prams = {}" , prams.toString());
         return Map.of();
