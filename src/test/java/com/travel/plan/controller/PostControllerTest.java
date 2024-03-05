@@ -50,6 +50,7 @@ class PostControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청 입니다."))
+                .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세여."))
                 .andDo(print());
     }
 

@@ -25,11 +25,11 @@ public class ErrorResponse {
     private final String code;
     private final String message;
 
-    private final Map<String, String> map = new HashMap<>();
+    private final Map<String, String> validation = new HashMap<>();
 
 
    public void addValidation(String code, String message){
-        this.map.put(code,message);
+        this.validation.put(code,message);
    }
 
 }
