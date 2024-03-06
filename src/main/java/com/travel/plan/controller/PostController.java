@@ -1,5 +1,6 @@
 package com.travel.plan.controller;
 
+import com.travel.plan.domain.Post;
 import com.travel.plan.request.PostCreate;
 import com.travel.plan.service.PostService;
 import jakarta.validation.Valid;
@@ -42,6 +43,12 @@ public class PostController {
 
         postService.write(request);
 
+    }
+
+    @GetMapping("/posts/{postId}")
+    public Post get(Long postId) throws Exception{
+        Post post = postService.get(postId);
+        return post;
     }
 
 
