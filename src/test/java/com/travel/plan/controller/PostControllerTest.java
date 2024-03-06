@@ -58,19 +58,29 @@ class PostControllerTest {
                         .content(json)
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string("Hello World"))
+                .andExpect(content().string(""))
                 .andDo(print());
     }
 
     @Test
     @DisplayName("/posts 요청시 title 값은 필수다.")
     void test2() throws Exception {
+
+        PostCreate request = PostCreate.builder()
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/posts")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"title\" : \"\", \"content\" : \"내용입니다.\"}")
-//                        .content(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//                        .param("title","글 제목입니다.")
-//                        .param("content","글 내용입니다.")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+//        mockMvc.perform(MockMvcRequestBuilders.post("/posts")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content("{\"title\" : \"\", \"content\" : \"내용입니다.\"}")
+////                        .content(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+////                        .param("title","글 제목입니다.")
+////                        .param("content","글 내용입니다.")
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
@@ -82,9 +92,17 @@ class PostControllerTest {
     @Test
     @DisplayName("/posts 요청시 DB에 값이 저장된다.")
     void test3() throws Exception {
+
+        PostCreate request = PostCreate.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/posts")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"title\" : \"제목입니다.\", \"content\" : \"내용입니다.\"}")
+                                .content(json)
                 )
                 .andExpect(status().isOk())
                 .andDo(print());

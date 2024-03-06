@@ -1,5 +1,6 @@
 package com.travel.plan.response;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,7 +19,6 @@ import java.util.Map;
 *
 *   }
 * */
-@RequiredArgsConstructor
 @Getter
 public class ErrorResponse {
 
@@ -27,8 +27,13 @@ public class ErrorResponse {
 
     private final Map<String, String> validation = new HashMap<>();
 
+    @Builder
+    public ErrorResponse(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
-   public void addValidation(String code, String message){
+    public void addValidation(String code, String message){
         this.validation.put(code,message);
    }
 
