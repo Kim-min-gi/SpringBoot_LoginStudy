@@ -1,7 +1,9 @@
 package com.travel.plan.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.travel.plan.domain.Post;
 import com.travel.plan.repository.PostRepository;
+import com.travel.plan.request.PostCreate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest {
 
     @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -38,12 +43,19 @@ class PostControllerTest {
     @Test
     @DisplayName("/posts 요청시 Hello world 출력")
     void test() throws Exception {
+
+        PostCreate request = PostCreate.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        System.out.println(json);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"title\" : \"제목입니다.\", \"content\" : \"내용입니다.\"}")
-//                        .content(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//                        .param("title","글 제목입니다.")
-//                        .param("content","글 내용입니다.")
+                        .content(json)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello World"))
