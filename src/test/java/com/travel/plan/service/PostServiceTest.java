@@ -3,6 +3,7 @@ package com.travel.plan.service;
 import com.travel.plan.domain.Post;
 import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -55,12 +56,13 @@ class PostServiceTest {
         postRepository.save(requstPost);
 
         //when
-        Post post = postService.get(requstPost.getId());
+        PostResponse response = postService.get(requstPost.getId());
 
         //then
-        assertNotNull(post);
-        assertEquals("foo",post.getTitle());
-        assertEquals("bar",post.getContent());
+        assertNotNull(response);
+        Assertions.assertEquals(1L, postRepository.count());
+        assertEquals("foo",response.getTitle());
+        assertEquals("bar",response.getContent());
     }
 
 

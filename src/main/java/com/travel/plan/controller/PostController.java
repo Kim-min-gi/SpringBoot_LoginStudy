@@ -2,6 +2,7 @@ package com.travel.plan.controller;
 
 import com.travel.plan.domain.Post;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.response.PostResponse;
 import com.travel.plan.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +47,12 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public Post get(Long postId) throws Exception{
-        Post post = postService.get(postId);
+    public PostResponse get(@PathVariable(name = "postId") Long postId) throws Exception{
+        // Request 클래스
+        // Response 클래스
+
+
+        PostResponse post = postService.get(postId);
         return post;
     }
 
