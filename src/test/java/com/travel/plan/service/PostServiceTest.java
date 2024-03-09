@@ -76,14 +76,17 @@ class PostServiceTest {
                 .content("bar1")
                 .build();
 
-        postRepository.save(requstPost1);
+        postRepository.saveAll(List.of(
+                Post.builder()
+                        .title("foo1")
+                        .content("bar1")
+                        .build(),
+                Post.builder()
+                        .title("foo2")
+                        .content("bar2")
+                        .build()
 
-        Post requstPost2 = Post.builder()
-                .title("foo2")
-                .content("bar2")
-                .build();
-
-        postRepository.save(requstPost2);
+        ));
 
         //when
         List<PostResponse> posts = postService.getList();
