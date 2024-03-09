@@ -52,9 +52,14 @@ public class PostController {
         // Response 클래스
 
 
-        PostResponse post = postService.get(postId);
-        return post;
+        return postService.get(postId);
     }
+
+    @GetMapping("/posts")
+    public List<PostResponse> getList(){
+        return postService.getList();
+    }
+
 
 
 }
