@@ -95,6 +95,23 @@ class PostServiceTest {
         Assertions.assertEquals(2L, posts.size());
     }
 
+    @Test
+    @DisplayName("글 삭제")
+    void test6(){
+        //given
+        Post requstPost1 = Post.builder()
+                .title("테스트1")
+                .content("반포자이")
+                .build();
+
+        postRepository.save(requstPost1);
+
+        //when
+        postService.delete(requstPost1.getId());
+
+        //then
+        Assertions.assertEquals(0, postRepository.count());
+    }
 
 
 }

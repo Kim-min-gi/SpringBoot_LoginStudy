@@ -162,4 +162,22 @@ class PostControllerTest {
 
     }
 
+
+    @Test
+    @DisplayName("게시글 삭제")
+    void test8() throws Exception {
+        //given
+        Post post1 = postRepository.save(Post.builder()
+                .title("title_1")
+                .content("content_1")
+                .build());
+
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.delete("/posts/{postId}",post1.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
 }
