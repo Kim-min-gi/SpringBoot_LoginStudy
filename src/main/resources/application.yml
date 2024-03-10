@@ -1,4 +1,11 @@
 spring:
+  #  페이징 작업
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        default-page-size: 5
+
   jpa:
     properties:
       hibernate:
