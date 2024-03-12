@@ -198,6 +198,32 @@ class PostControllerTest {
 
     }
 
+    @Test
+    @DisplayName("글 제목 수정.")
+    void test7() throws Exception {
+        //given
+        Post post1 = postRepository.save(Post.builder()
+                .title("title_1")
+                .content("content_1")
+                .build());
+
+        postRepository.save(post1);
+
+        Post postEdit = postRepository.save(Post.builder()
+                .title("title_2")
+                .content("초가집")
+                .build());
+
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.patch("/posts/{postsId}", post1.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postEdit))
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
 
 
     @Test

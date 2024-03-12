@@ -75,6 +75,8 @@ public class PostService {
 
         post.edit(postEditor);
 
+        //return new PostResponse(post);
+
     }
 
     public void delete(Long id) {

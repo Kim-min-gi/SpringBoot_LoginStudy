@@ -2,6 +2,7 @@ package com.travel.plan.controller;
 
 import com.travel.plan.domain.Post;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import com.travel.plan.service.PostService;
@@ -63,6 +64,11 @@ public class PostController {
         return postService.getList(postSearch);
     }
 
+
+    @PatchMapping("/posts/{postId}")
+    public void edit(@PathVariable(name = "postId") Long postId, @RequestBody @Valid PostEdit request){
+         postService.edit(postId,request);
+    }
 
     @DeleteMapping("/posts/{postId}")
     public void delete(@PathVariable(name = "postId") Long postId){
