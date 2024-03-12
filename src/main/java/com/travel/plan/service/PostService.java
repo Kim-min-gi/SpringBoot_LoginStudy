@@ -1,8 +1,10 @@
 package com.travel.plan.service;
 
 import com.travel.plan.domain.Post;
+import com.travel.plan.domain.PostEditor;
 import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +52,28 @@ public class PostService {
         return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
+
+    }
+
+    @Transactional
+    public void edit(Long id, PostEdit postEdit){
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
+
+//        if (postEdit.getTitle() != null){
+//            editorBuilder.title(postEdit.getTitle());
+//        }
+//        if (postEdit.getContent() != null){
+//            editorBuilder.title(postEdit.getContent());
+//        }
+
+        PostEditor postEditor = editorBuilder.title(postEdit.getTitle())
+                .content(postEdit.getContent())
+                .build();
+
+        post.edit(postEditor);
 
     }
 

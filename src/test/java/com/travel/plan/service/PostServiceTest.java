@@ -3,6 +3,7 @@ package com.travel.plan.service;
 import com.travel.plan.domain.Post;
 import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
@@ -102,6 +103,61 @@ class PostServiceTest {
         Assertions.assertEquals(10L, posts.size());
         Assertions.assertEquals("테스트 제목 - 30",posts.get(0).getTitle());
     }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void test4(){
+        //given
+
+         Post post = Post.builder()
+                                .title("테스트 제목 - " + 1)
+                                .content("테스트 내용 - " + 1)
+                                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("테스트1")
+                .build();
+
+        //when
+        postService.edit(post.getId(),postEdit);
+
+        //then
+        Post changedPost = postRepository.findById(post.getId())
+                        .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+
+        Assertions.assertEquals("테스트1", changedPost.getTitle());
+    }
+
+    @Test
+    @DisplayName("글 내용 수정")
+    void test5(){
+        //given
+
+        Post post = Post.builder()
+                .title("테스트 제목 - " + 1)
+                .content("테스트 내용 - " + 1)
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("테스트1")
+                .content("초가집")
+                .build();
+
+        //when
+        postService.edit(post.getId(),postEdit);
+
+        //then
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+
+        Assertions.assertEquals("초가집", changedPost.getContent());
+    }
+
+
 
     @Test
     @DisplayName("글 삭제")
