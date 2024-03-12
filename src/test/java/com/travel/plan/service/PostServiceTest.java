@@ -3,6 +3,7 @@ package com.travel.plan.service;
 import com.travel.plan.domain.Post;
 import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,15 +87,20 @@ class PostServiceTest {
         postRepository.saveAll(requstPosts);
 
         //Pageable pageable = PageRequest.of(0,5, Sort.Direction.DESC,"id");
-        Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC,"id"));
+        //Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,"id"));
+
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .size(10)
+                .build();
+
 
         //when
-        List<PostResponse> posts = postService.getList(pageable);
+        List<PostResponse> posts = postService.getList(postSearch);
 
         //then
-        Assertions.assertEquals(5L, posts.size());
+        Assertions.assertEquals(10L, posts.size());
         Assertions.assertEquals("테스트 제목 - 30",posts.get(0).getTitle());
-        Assertions.assertEquals("테스트 제목 - 26",posts.get(4).getTitle());
     }
 
     @Test

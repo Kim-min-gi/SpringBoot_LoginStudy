@@ -3,6 +3,7 @@ package com.travel.plan.service;
 import com.travel.plan.domain.Post;
 import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +43,10 @@ public class PostService {
                 .build();
     }
 
-    public List<PostResponse> getList(Pageable pageable) {
+    public List<PostResponse> getList(PostSearch postSearch) {
         //Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC,"id"));
 
-        return postRepository.findAll(pageable).stream()
+        return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
 

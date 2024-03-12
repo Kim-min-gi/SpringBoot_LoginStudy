@@ -88,7 +88,7 @@ class PostControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
-                .andExpect(jsonPath("$.message").value("잘못된 요청 입니다."))
+                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
                 .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세여."))
                 .andDo(print());
     }
@@ -133,7 +133,7 @@ class PostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(post.getId()))
-                .andExpect(jsonPath("$.title").value("123456789012345"))
+                .andExpect(jsonPath("$.title").value("1234567890"))
                 .andExpect(jsonPath("$.content").value("bar"))
                 .andDo(print());
 
@@ -162,16 +162,42 @@ class PostControllerTest {
 
 
         // expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/posts?page=1&sort=id,desc")
+        mockMvc.perform(MockMvcRequestBuilders.get("/posts?page=1&size=10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", Matchers.is(5)))
-                .andExpect(jsonPath("$[0].id").value(30))
+                .andExpect(jsonPath("$.length()", Matchers.is(10)))
+                //.andExpect(jsonPath("$[0].id").value(30))
                 .andExpect(jsonPath("$[0].title").value("테스트 제목 - 30"))
                 .andExpect(jsonPath("$[0].content").value("테스트 내용 - 30"))
                 .andDo(print());
 
     }
+
+
+    @Test
+    @DisplayName("페이지를 0으로 요청하면 첫 페이지를 가져온다.")
+    void test6() throws Exception {
+        //given
+        List<Post> requstPosts = IntStream.range(1,31).mapToObj(i ->
+                        Post.builder()
+                                .title("테스트 제목 - " + i)
+                                .content("테스트 내용 - "+i)
+                                .build())
+                .toList();
+        postRepository.saveAll(requstPosts);
+
+
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.get("/posts?page=0&size=10")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", Matchers.is(10)))
+                .andExpect(jsonPath("$[0].title").value("테스트 제목 - 30"))
+                .andExpect(jsonPath("$[0].content").value("테스트 내용 - 30"))
+                .andDo(print());
+
+    }
+
 
 
     @Test

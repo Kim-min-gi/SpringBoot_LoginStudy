@@ -2,6 +2,7 @@ package com.travel.plan.controller;
 
 import com.travel.plan.domain.Post;
 import com.travel.plan.request.PostCreate;
+import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import com.travel.plan.service.PostService;
 import jakarta.validation.Valid;
@@ -58,8 +59,8 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public List<PostResponse> getList(Pageable pageable){
-        return postService.getList(pageable);
+    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch){
+        return postService.getList(postSearch);
     }
 
 

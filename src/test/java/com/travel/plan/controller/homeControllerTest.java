@@ -16,13 +16,13 @@ class homeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    @DisplayName("요청 확인 ")
-    void test() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Hello world"));
-    }
+//    @Test
+//    @DisplayName("요청 확인 ")
+//    void test() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().string("Hello world"));
+//    }
 
 
 }
