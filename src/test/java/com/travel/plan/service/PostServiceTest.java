@@ -1,6 +1,7 @@
 package com.travel.plan.service;
 
 import com.travel.plan.domain.Post;
+import com.travel.plan.exception.PostNotFound;
 import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
 import com.travel.plan.request.PostEdit;
@@ -175,6 +176,76 @@ class PostServiceTest {
 
         //then
         Assertions.assertEquals(0, postRepository.count());
+    }
+
+    @Test
+    @DisplayName("게시글 조회 - 존재하지 않는 글")
+    void test7(){
+        //given
+        Post post = Post.builder()
+                .title("테스트제목")
+                .content("테스트내용")
+                .build();
+
+        postRepository.save(post);
+
+
+        //expected
+       assertThrows(PostNotFound.class, () -> {
+           postService.get(post.getId() + 1L);
+       });
+
+
+
+
+
+
+//        Assertions.assertThrows(NullPointerException.class,() -> {
+//            postService.get(post.getId() + 1L);
+//        }, "예외처리가 잘못 되었어요.");
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 - 존재하지 않는 글")
+    void test8(){
+        //given
+        Post post = Post.builder()
+                .title("테스트제목")
+                .content("테스트내용")
+                .build();
+
+        postRepository.save(post);
+
+
+        //expected
+        assertThrows(PostNotFound.class, () -> {
+            postService.delete(post.getId() + 1L);
+        });
+
+    }
+
+    @Test
+    @DisplayName("게시글 수정 - 존재하지 않는 글")
+    void test9(){
+        //given
+        Post post = Post.builder()
+                .title("테스트제목")
+                .content("테스트내용")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("테스트제목")
+                .content("초가집")
+                .build();
+
+
+        //expected
+        assertThrows(PostNotFound.class, () -> {
+            postService.edit(post.getId() + 1L, postEdit);
+        });
+
     }
 
 
