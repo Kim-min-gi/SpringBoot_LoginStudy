@@ -1,6 +1,5 @@
 package com.travel.plan.controller;
 
-import com.travel.plan.domain.Post;
 import com.travel.plan.request.PostCreate;
 import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
@@ -9,15 +8,9 @@ import com.travel.plan.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -45,6 +38,7 @@ public class PostController {
         // Case 2. 저장한 데이터 primary_id -> Response로 응답하기
         // Case 3. 응답 필요 없음. -> 클라이언트에서 모든 데이터를 관리함
         // Bad Case - 서버에서 이렇게 할껍니다 fix해버리는 경우
+        request.validate();
 
         postService.write(request);
 

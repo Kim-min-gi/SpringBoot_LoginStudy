@@ -1,5 +1,6 @@
 package com.travel.plan.request;
 
+import com.travel.plan.exception.InvalidRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,4 +32,12 @@ public class PostCreate {
     //빌더의 장점
     // - 가독성에 좋다. 값 생성의 대한 유연함
     // - 필요한 값만 받을 수 있다. -> (오버로딩 가능한 조건 찾아보세요)
+
+
+    public void validate(){
+        if (title.contains("바보")){
+            throw new InvalidRequest("title", "제목에 바보를 포함할 수 없습니다.");
+        }
+
+    }
 }
