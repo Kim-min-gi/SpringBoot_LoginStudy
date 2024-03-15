@@ -7,6 +7,7 @@ import com.travel.plan.repository.PostRepository;
 import com.travel.plan.request.PostCreate;
 import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
+import com.travel.plan.response.ErrorResponse;
 import com.travel.plan.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class PostService {
                .content(postCreate.getContent())
                .build();
        postRepository.save(post);
+
     }
 
 

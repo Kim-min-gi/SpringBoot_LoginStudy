@@ -1,28 +1,35 @@
 = 테스트 API
-:toc:
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
 
 == 글 단건조회
 
 
-=== curl
-
-include::{snippets}/index/curl-request.adoc[]
 
 === 요청
-include::{snippets}/index/http-request.adoc[]
+include::{snippets}/post-inquiry/http-request.adoc[]
 
-include::{snippets}/index/path-parameters.adoc[]
+include::{snippets}/post-inquiry/path-parameters.adoc[]
 
-include::{snippets}/index/request-fields.adoc[]
 
 === 응답
-include::{snippets}/index/http-response.adoc[]
+include::{snippets}/post-inquiry/http-response.adoc[]
 
-=== 응답 파라미터
-include::{snippets}/index/response-fields.adoc[]
+include::{snippets}/post-inquiry/response-fields.adoc[]
 
-=== request-body
-include::{snippets}/index/request-body.adoc[]
 
-=== response-body
-include::{snippets}/index/response-body.adoc[]
+== 글 작성
+
+=== 요청
+include::{snippets}/post-create/http-request.adoc[]
+
+include::{snippets}/post-create/request-fields.adoc[]
+
+
+=== 응답
+include::{snippets}/post-create/http-response.adoc[]
+
