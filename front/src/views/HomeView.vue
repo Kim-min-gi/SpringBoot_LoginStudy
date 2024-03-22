@@ -41,11 +41,11 @@ ul{
   padding: 0;
 
   li {
-    margin-bottom: 1.6rem;
+    margin-bottom: 2rem;
 
     .title {
       a{
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: #383838;
         text-decoration: none;
       }
@@ -56,9 +56,9 @@ ul{
     }
 
     .content{
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       margin-top: 8px;
-      color: #6b6b6b;
+      color: #7e7e7e;
     }
 
     &:last-child{
@@ -66,10 +66,11 @@ ul{
     }
 
     .sub{
-      margin-top: 4px;
+      margin-top: 8px;
       font-size: 0.78rem;
 
       .regDate{
+        margin-left: 10px;
         color: #6b6b6b;
       }
     }
