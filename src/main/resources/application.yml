@@ -24,3 +24,5 @@ spring:
     suffix: .html
     prefix: classpath:/templates/
 
+#  profiles:
+#    include:
