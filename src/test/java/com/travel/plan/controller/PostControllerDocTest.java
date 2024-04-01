@@ -45,13 +45,6 @@ public class PostControllerDocTest {
     @Autowired
     private PostRepository postRepository;
 
-//    @BeforeEach
-//    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-//        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-//                .apply(documentationConfiguration(restDocumentation))
-//                .build();
-//    }
-
     @Test
     @DisplayName("글 단건 조회 테스트")
     void test1() throws Exception {
