@@ -26,7 +26,7 @@ public class PostController {
 //    }
 
     @PostMapping("/posts")
-    public void post(@RequestBody @Valid PostCreate request, @RequestHeader String authorization) throws Exception {
+    public void post(@RequestBody @Valid PostCreate request) throws Exception {
         //데이터를 검증하는 이유
         //1. client 개발자가 깜빡할 수 있다.
         //2. client 버그로 값이 누락될 수 있다.
@@ -44,12 +44,9 @@ public class PostController {
         // 2. Post(body) value
         // 3. Header
 
-        if (authorization.equals("testing")){
-
             request.validate();
             postService.write(request);
 
-        }
 
     }
 

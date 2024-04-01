@@ -86,7 +86,7 @@ class PostControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/posts")
-                                .header("authorization","testing")
+                       //         .header("authorization","testing")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json)
                 )
