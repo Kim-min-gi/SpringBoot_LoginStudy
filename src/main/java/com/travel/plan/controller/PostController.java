@@ -1,5 +1,6 @@
 package com.travel.plan.controller;
 
+import com.travel.plan.config.data.UserSession;
 import com.travel.plan.request.PostCreate;
 import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
@@ -28,8 +29,8 @@ public class PostController {
 
 
     @GetMapping("/foo")
-    public String foo(HttpServletRequest request){
-        log.info("accessToken >>>> {}",request.getParameter("accessToken"));
+    public String foo(UserSession userSession){
+        log.info("accessToken >>>> {}",userSession.name);
         return "foo";
     }
 
