@@ -5,6 +5,7 @@ import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import com.travel.plan.service.PostService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,13 @@ public class PostController {
 //        log.info("prams = {}" , prams);
 //        return "Hello World";
 //    }
+
+
+    @GetMapping("/foo")
+    public String foo(HttpServletRequest request){
+        log.info("accessToken >>>> {}",request.getParameter("accessToken"));
+        return "foo";
+    }
 
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request) throws Exception {
