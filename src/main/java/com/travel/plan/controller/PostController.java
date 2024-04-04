@@ -29,9 +29,9 @@ public class PostController {
 
 
     @GetMapping("/foo")
-    public String foo(UserSession userSession){
-        log.info("accessToken >>>> {}",userSession.name);
-        return "foo";
+    public Long foo(UserSession userSession){
+        log.info("accessToken >>>> {}",userSession.id);
+        return userSession.id;
     }
 
     @PostMapping("/posts")
