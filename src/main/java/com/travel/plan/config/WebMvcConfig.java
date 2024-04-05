@@ -16,11 +16,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //                .allowedOrigins("http://localhost:5173");
 //    }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor())
-                .excludePathPatterns("/error","/favicon.ico");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new AuthInterceptor())
+//                .excludePathPatterns("/");
+//    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
