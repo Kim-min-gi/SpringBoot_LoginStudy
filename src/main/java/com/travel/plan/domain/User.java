@@ -2,14 +2,18 @@ package com.travel.plan.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class User {
 
     @Id
@@ -23,6 +27,28 @@ public class User {
     private String password;
 
     private LocalDateTime createdAt;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Session> session = new ArrayList<>();
+
+    @Builder
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.createdAt = LocalDateTime.now();
+    }
+
+
+    public Session addSession(){
+       Session sessions = Session.builder()
+                .user(this)
+                .build();
+
+        session.add(sessions);
+
+        return sessions;
+    }
 
 
 }

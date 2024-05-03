@@ -2,6 +2,7 @@ package com.travel.plan.request;
 
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Builder
 public class Login {
 
     @NotBlank(message = "이메일을 입력해주세요.")

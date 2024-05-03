@@ -5,6 +5,8 @@ import com.travel.plan.exception.InvalidRequest;
 import com.travel.plan.exception.InvalidSignInformation;
 import com.travel.plan.repository.UserRepository;
 import com.travel.plan.request.Login;
+import com.travel.plan.response.SessionResponse;
+import com.travel.plan.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +20,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserRepository userRepository;
+    private final AuthService authService;
 
     @PostMapping("/auth/login")
-    public User login(@RequestBody Login login){
-        log.info(">>>>>login={}", login);
-
-        User user = userRepository.findByEmailAndPassword(login.getEmail(),login.getPassword())
-                .orElseThrow(InvalidSignInformation::new);
-
-
-        return user;
-
+    public SessionResponse login(@RequestBody Login login){
+        String accessToken = authService.singin(login);
+        return new SessionResponse(accessToken);
     }
 
 }
