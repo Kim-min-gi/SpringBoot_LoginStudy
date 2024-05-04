@@ -135,5 +135,31 @@ class AuthControllerTest {
 
     }
 
+    @Test
+    @DisplayName("로그인 후 권한이 필요한 페이지 접속한다.")
+    void test4() throws Exception{
+//        User user = userRepository.save(User.builder()
+//                .name("test")
+//                .email("Testing@naver.com")
+//                .password("1234")
+//                .build());
+//
+//
+//        Login login = Login.builder()
+//                .email("Testing@naver.com")
+//                .password("1234")
+//                .build();
+//
+//        String json = objectMapper.writeValueAsString(login);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/foo")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.accessToken", Matchers.notNullValue()))
+                .andDo(MockMvcResultHandlers.print());
+
+
+    }
+
 
 }
