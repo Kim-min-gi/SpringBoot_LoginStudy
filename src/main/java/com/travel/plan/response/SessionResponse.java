@@ -11,4 +11,6 @@ public class SessionResponse {
     public SessionResponse(String accessToken) {
         this.accessToken = accessToken;
     }
+
+
 }

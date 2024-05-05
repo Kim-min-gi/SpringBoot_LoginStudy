@@ -1,6 +1,7 @@
 package com.travel.plan.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.travel.plan.domain.Session;
 import com.travel.plan.domain.User;
 import com.travel.plan.repository.SessionRepository;
 import com.travel.plan.repository.UserRepository;
@@ -19,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -138,24 +141,20 @@ class AuthControllerTest {
     @Test
     @DisplayName("로그인 후 권한이 필요한 페이지 접속한다.")
     void test4() throws Exception{
-//        User user = userRepository.save(User.builder()
-//                .name("test")
-//                .email("Testing@naver.com")
-//                .password("1234")
-//                .build());
-//
-//
-//        Login login = Login.builder()
-//                .email("Testing@naver.com")
-//                .password("1234")
-//                .build();
-//
-//        String json = objectMapper.writeValueAsString(login);
+        User user = User.builder()
+                .name("test")
+                .email("testing@gmail.com")
+                .password("1234")
+                .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/foo")
+        Session session = user.addSession();
+        userRepository.save(user);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/foo")
+                        .header("Authorization", session.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.accessToken", Matchers.notNullValue()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
 
