@@ -161,4 +161,27 @@ class AuthControllerTest {
     }
 
 
+    @Test
+    @DisplayName("로그인 후 검증되지 않는 세션값으로 들어올 때 페이지 접속 불가 확인.")
+    void test5() throws Exception{
+        User user = User.builder()
+                .name("test")
+                .email("testing@gmail.com")
+                .password("1234")
+                .build();
+
+        Session session = user.addSession();
+        userRepository.save(user);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/foo")
+                        .header("Authorization", session.getAccessToken() + "tt")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andDo(MockMvcResultHandlers.print());
+
+
+    }
+
+
 }
