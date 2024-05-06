@@ -5,6 +5,11 @@ import com.travel.plan.domain.Session;
 import com.travel.plan.exception.Unauthorized;
 import com.travel.plan.repository.SessionRepository;
 import com.travel.plan.response.SessionResponse;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +20,17 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
+    private static final String KEY = "7DP2HXl9I8jdvKYBAS4ZmrciWkkJmjm60E0QMZqTQic=";
     private final SessionRepository sessionRepository;
+
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -30,27 +39,48 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        //String accessToken = webRequest.getHeader("Authorization");
+        String jws = webRequest.getHeader("Authorization");
 
-        HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
-
-        if (servletRequest == null){
-            log.error("servletRequest null");
+        if (jws == null || jws.isEmpty()){
             throw new Unauthorized();
         }
 
-        Cookie[] cookies = servletRequest.getCookies();
+        SecretKey originalKey =  Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
 
-        if (cookies.length == 0){
-            log.error("쿠키가 없음!");
+        try {
+
+         Jws<Claims> claims = Jwts.parser()
+                    .verifyWith(originalKey)
+                    .build()
+                    .parseSignedClaims(jws);
+
+         String userId = claims.getPayload().getSubject();
+         return new UserSession(Long.parseLong(userId));
+
+        } catch (JwtException e) {
             throw new Unauthorized();
         }
 
-        String accessToken = cookies[0].getValue();
+//        HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
+//
+//        if (servletRequest == null){
+//            log.error("servletRequest null");
+//            throw new Unauthorized();
+//        }
+//
+//        Cookie[] cookies = servletRequest.getCookies();
+//
+//        if (cookies.length == 0){
+//            log.error("쿠키가 없음!");
+//            throw new Unauthorized();
+//        }
+//
+//        String accessToken = cookies[0].getValue();
+//
+//        Session session = sessionRepository.findByAccessToken(accessToken)
+//                .orElseThrow(Unauthorized::new);
 
-        Session session = sessionRepository.findByAccessToken(accessToken)
-                .orElseThrow(Unauthorized::new);
 
-        return new UserSession(session.getUser().getId());
+        //return new UserSession(session.getUser().getId());
     }
 }
