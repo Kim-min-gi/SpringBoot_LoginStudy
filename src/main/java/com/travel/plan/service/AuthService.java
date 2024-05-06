@@ -21,9 +21,9 @@ public class AuthService {
         User user = userRepository.findByEmailAndPassword(login.getEmail(),login.getPassword())
                 .orElseThrow(InvalidSignInformation::new);
 
-      Session session = user.addSession();
+      //Session session = user.addSession();
 
-     //return session.getAccessToken();
+      //return session.getAccessToken();
         return user.getId();
 
     }
