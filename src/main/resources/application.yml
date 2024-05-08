@@ -1,6 +1,4 @@
 spring:
-
-
   #  페이징 작업
   data:
     web:
@@ -36,3 +34,6 @@ spring:
 
 #  profiles:
 #    include:
+
+keynumber:
+  local: "Hello"
