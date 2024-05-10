@@ -36,4 +36,4 @@ spring:
 #    include:
 
 keynumber:
-  local: "Hello"
+  jwtKey: "7DP2HXl9I8jdvKYBAS4ZmrciWkkJmjm60E0QMZqTQic="

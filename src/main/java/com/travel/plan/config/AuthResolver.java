@@ -1,17 +1,12 @@
 package com.travel.plan.config;
 
 import com.travel.plan.config.data.UserSession;
-import com.travel.plan.domain.Session;
 import com.travel.plan.exception.Unauthorized;
 import com.travel.plan.repository.SessionRepository;
-import com.travel.plan.response.SessionResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -21,14 +16,12 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
-    private static final String KEY = "7DP2HXl9I8jdvKYBAS4ZmrciWkkJmjm60E0QMZqTQic=";
+    private final AppConfig appConfig;
     private final SessionRepository sessionRepository;
 
 
@@ -45,7 +38,7 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
             throw new Unauthorized();
         }
 
-        SecretKey originalKey =  Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
+        SecretKey originalKey = appConfig.getJwtKey();
 
         try {
 

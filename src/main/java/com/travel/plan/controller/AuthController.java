@@ -1,5 +1,6 @@
 package com.travel.plan.controller;
 
+import com.travel.plan.config.AppConfig;
 import com.travel.plan.domain.User;
 import com.travel.plan.exception.InvalidRequest;
 import com.travel.plan.exception.InvalidSignInformation;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.crypto.SecretKey;
 import java.time.Duration;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -29,19 +31,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private static final String KEY = "7DP2HXl9I8jdvKYBAS4ZmrciWkkJmjm60E0QMZqTQic=";
-    private final AuthService authService;
 
+    private final AuthService authService;
+    private final AppConfig appConfig;
 
 
     @PostMapping("/auth/login")
     public SessionResponse login(@RequestBody Login login){
         Long userId = authService.singin(login);
 
-        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
+        SecretKey key = appConfig.getJwtKey();
 
 
-        String jws = Jwts.builder().subject(String.valueOf(userId)).signWith(key).compact();
+        String jws = Jwts.builder()
+                .subject(String.valueOf(userId))
+                .signWith(key)
+                .issuedAt(new Date())
+                .compact();
 
 //        byte[] encodingKey = key.getEncoded();
 //        String strKey = Base64.getEncoder().encodeToString(encodingKey);
