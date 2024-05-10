@@ -38,12 +38,10 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
             throw new Unauthorized();
         }
 
-        SecretKey originalKey = appConfig.getJwtKey();
-
         try {
 
          Jws<Claims> claims = Jwts.parser()
-                    .verifyWith(originalKey)
+                    .verifyWith(appConfig.getJwtKey())
                     .build()
                     .parseSignedClaims(jws);
 

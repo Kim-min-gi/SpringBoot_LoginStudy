@@ -40,12 +40,9 @@ public class AuthController {
     public SessionResponse login(@RequestBody Login login){
         Long userId = authService.singin(login);
 
-        SecretKey key = appConfig.getJwtKey();
-
-
         String jws = Jwts.builder()
                 .subject(String.valueOf(userId))
-                .signWith(key)
+                .signWith(appConfig.getJwtKey())
                 .issuedAt(new Date())
                 .compact();
 
