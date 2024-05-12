@@ -6,6 +6,7 @@ import com.travel.plan.domain.User;
 import com.travel.plan.repository.SessionRepository;
 import com.travel.plan.repository.UserRepository;
 import com.travel.plan.request.Login;
+import com.travel.plan.request.Signup;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -178,6 +179,26 @@ class AuthControllerTest {
                         .header("Authorization", session.getAccessToken() + "tt")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andDo(MockMvcResultHandlers.print());
+
+
+    }
+
+
+    @Test
+    @DisplayName("회원가입")
+    void test6() throws Exception{
+        Signup signup =  Signup.builder()
+                .email("testing@gmail.com")
+                .name("testing")
+                .password("1234")
+                .build();
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/signup")
+                        .content(objectMapper.writeValueAsString(signup))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
 
