@@ -1,1 +1,0 @@
-INSERT INTO user (name, email, password, created_at) values ('이름','testing@gmail.com','1234','2024-04-29 00:00:01')
