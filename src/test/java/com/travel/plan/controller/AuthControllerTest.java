@@ -1,11 +1,8 @@
 package com.travel.plan.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travel.plan.domain.Session;
 import com.travel.plan.domain.User;
-import com.travel.plan.repository.SessionRepository;
 import com.travel.plan.repository.UserRepository;
-import com.travel.plan.request.Login;
 import com.travel.plan.request.Signup;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -22,10 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class AuthControllerTest {
@@ -40,148 +33,9 @@ class AuthControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private SessionRepository sessionRepository;
-
     @BeforeEach
     void clean(){
         userRepository.deleteAll();
-    }
-
-
-    @Test
-    @DisplayName("로그인 성공")
-    void test() throws Exception{
-
-        userRepository.save(User.builder()
-                        .name("test")
-                        .email("Testing@naver.com")
-                        .password("1234")
-                .build());
-
-
-        Login login = Login.builder()
-                .email("Testing@naver.com")
-                .password("1234")
-                .build();
-
-        String json = objectMapper.writeValueAsString(login);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json)
-        ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-
-
-    }
-
-
-    @Test
-    @Transactional
-    @DisplayName("로그인 성공후 세션 한개 추가")
-    void test2() throws Exception{
-
-        User user = userRepository.save(User.builder()
-                .name("test")
-                .email("Testing@naver.com")
-                .password("1234")
-                .build());
-
-
-        Login login = Login.builder()
-                .email("Testing@naver.com")
-                .password("1234")
-                .build();
-
-        String json = objectMapper.writeValueAsString(login);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json)
-                ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-
-//        User loggedInUser = userRepository.findById(user.getId())
-//                        .orElseThrow(RuntimeException::new);
-
-
-        //Assertions.assertEquals(1L,sessionRepository.count());
-        Assertions.assertEquals(1L,user.getSession().size());
-
-    }
-
-    @Test
-    @DisplayName("로그인 성공후 세션 응답")
-    void test3() throws Exception{
-
-        User user = userRepository.save(User.builder()
-                .name("test")
-                .email("Testing@naver.com")
-                .password("1234")
-                .build());
-
-
-        Login login = Login.builder()
-                .email("Testing@naver.com")
-                .password("1234")
-                .build();
-
-        String json = objectMapper.writeValueAsString(login);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json)
-                ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.accessToken", Matchers.notNullValue()))
-                .andDo(MockMvcResultHandlers.print());
-
-
-    }
-
-    @Test
-    @DisplayName("로그인 후 권한이 필요한 페이지 접속한다.")
-    void test4() throws Exception{
-        User user = User.builder()
-                .name("test")
-                .email("testing@gmail.com")
-                .password("1234")
-                .build();
-
-        Session session = user.addSession();
-        userRepository.save(user);
-
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/foo")
-                        .header("Authorization", session.getAccessToken())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-
-
-    }
-
-
-    @Test
-    @DisplayName("로그인 후 검증되지 않는 세션값으로 들어올 때 페이지 접속 불가 확인.")
-    void test5() throws Exception{
-        User user = User.builder()
-                .name("test")
-                .email("testing@gmail.com")
-                .password("1234")
-                .build();
-
-        Session session = user.addSession();
-        userRepository.save(user);
-
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/foo")
-                        .header("Authorization", session.getAccessToken() + "tt")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-                .andDo(MockMvcResultHandlers.print());
-
-
     }
 
 

@@ -1,12 +1,10 @@
 package com.travel.plan.controller;
 
-import com.travel.plan.config.data.UserSession;
 import com.travel.plan.request.PostCreate;
 import com.travel.plan.request.PostEdit;
 import com.travel.plan.request.PostSearch;
 import com.travel.plan.response.PostResponse;
 import com.travel.plan.service.PostService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,18 +19,6 @@ public class PostController {
 
     private final PostService postService;
 
-//    @PostMapping("/posts")
-//    public String post(@RequestParam Map<String, String> prams){
-//        log.info("prams = {}" , prams);
-//        return "Hello World";
-//    }
-
-
-    @GetMapping("/foo")
-    public Long foo(UserSession userSession){
-        log.info("accessToken >>>> {}",userSession.id);
-        return userSession.id;
-    }
 
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request) throws Exception {
