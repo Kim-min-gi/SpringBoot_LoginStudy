@@ -1,5 +1,6 @@
 package com.travel.plan.service;
 
+import com.travel.plan.crypto.PasswordEncoder;
 import com.travel.plan.domain.User;
 import com.travel.plan.exception.AlreadyExistsEmailException;
 import com.travel.plan.exception.InvalidRequest;
@@ -23,12 +24,16 @@ public class AuthService {
     @Transactional
     public Long singin(Login login){
 
-        User user = userRepository.findByEmailAndPassword(login.getEmail(),login.getPassword())
+        User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSignInformation::new);
 
-      //Session session = user.addSession();
 
-      //return session.getAccessToken();
+        PasswordEncoder encoder = new PasswordEncoder();
+        var matches = encoder.matches(login.getPassword(),user.getPassword());
+        if (!matches){
+            throw new InvalidSignInformation();
+        }
+
         return user.getId();
 
     }
@@ -40,9 +45,9 @@ public class AuthService {
             throw new AlreadyExistsEmailException();
         }
 
-       SCryptPasswordEncoder encoder = new SCryptPasswordEncoder(16,8,1,32,64);
+        PasswordEncoder encoder = new PasswordEncoder();
 
-       String encryptedPassword = encoder.encode(signup.getPassword());
+       String encryptedPassword = encoder.encrypt(signup.getPassword());
 
 
        User user = User.builder()
