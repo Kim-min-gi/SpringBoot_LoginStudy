@@ -1,16 +1,21 @@
-### 로그인
+### 회원가입
 
-POST http://localhost:8080/auth/login
+POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "email" : "testing@gmail.com",
-  "password" : "1234"
-
+  "name": "test",
+  "email": "testing@gmail.com",
+  "password": "1234"
 }
 
-### 인증 페이지 요청
 
-GET http://localhost:8080/foo
-Content-Type: application/json
-Cookie: SESSION=51ddebc1-cfee-4532-8a67-0c88c2ffb9da
+### 로그인
+
+POST http://localhost:8080/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=testing@gmail.com&password=1234&remember=1
+
+### 메인페이지
+GET http://localhost:8080

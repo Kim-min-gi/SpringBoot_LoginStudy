@@ -1,17 +1,13 @@
 package com.travel.plan.service;
 
-import com.travel.plan.crypto.PasswordEncoder;
 import com.travel.plan.domain.User;
 import com.travel.plan.exception.AlreadyExistsEmailException;
-import com.travel.plan.exception.InvalidSignInformation;
 import com.travel.plan.repository.UserRepository;
 import com.travel.plan.request.Signup;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AuthServiceTest {
