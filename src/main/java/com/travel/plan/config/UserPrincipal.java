@@ -16,7 +16,7 @@ public class UserPrincipal extends User {
 //    }
 
     public UserPrincipal(com.travel.plan.domain.User user) {
-        super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ADMIN")));
+        super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
         this.userId = user.getId();
     }
 
